@@ -1,9 +1,13 @@
 const express = require('express')
 const router = express.Router()
+const URL = require('../model/url')
 
 
-router.get('/home' , (req,res) =>{
-    return res.render('home')
+router.get('/' ,  async (req,res) =>{
+    const allUrls = await URL.find({})
+    return res.render('home', {
+        urls:allUrls
+    })
 })
 
 module.exports = router

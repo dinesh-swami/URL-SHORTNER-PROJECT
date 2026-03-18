@@ -20,12 +20,6 @@ app.set('views', path.resolve('./views'))
 app.use('/home',staticRoute)
 
 
-app.get('/test' , async (req,res) => {
-    const allUrls = await URL.find({})
-    return res.render('home' , {
-        urls : allUrls,
-    })
-})
 
 app.use('/url', urlRoute)
 
