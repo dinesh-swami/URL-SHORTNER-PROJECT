@@ -13,5 +13,4 @@ router.post('/',handleGenerateShortURL)
 // analytic dekh sakte hoo using //http://localhost:8001/url/analytics/{shortID}
 router.get('/analytics/:shortId', handleGetAnalytics)
 
-
 module.exports = router;
