@@ -15,18 +15,16 @@ async function handleUserSingup(req,res) {
 
 async function handleUserLogin(req , res) {
     const {email,password} = req.body;
-    const userValidtion = await User.findOne({email,password})
-    
-    if (!userValidtion) return res.render('login', {
-        error : 'Invalid User Email ya Password , kya kiya re lawde!'
-    })
+const userValidtion = await User.findOne({email,password})
 
-// ager tumhara sab theek hai to ek session id bana deta hoon
-    const sessionId = uuidv4()
-    setUser(sessionId,userValidtion)
-    res.cookie('uid',sessionId)
+if (!userValidtion) return res.render('login', {
+    error : 'Invalid User Email ya Password , kya kiya re lawde!'
+})
 
-    return res.redirect('/')
+const token = setUser(userValidtion)  // ✅ userValidtion use karo!
+res.cookie('uid',token)
+
+return res.redirect('/')
 
 }
 
