@@ -1,12 +1,16 @@
 const express = require('express')
 const app = express() 
-const urlRoute  = require('./routes/url')
 const {connectToDb} = require('./connection')
 const URL = require('./model/url')
 const path = require('path')
+const cookieParser = require('cookie-parser') 
+const urlRoute  = require('./routes/url')
 const staticRoute = require('./routes/staticRouter.js')
+const userRoute  = require('./routes/user')
+const { restricetedToLoggedUserOnly, checkAuth } = require('./middleware/auth')
 
 app.use(express.json())
+app.use(cookieParser())
 
 // url encoded ke liye middleware
 app.use(express.urlencoded ({extended:false}))
@@ -17,11 +21,9 @@ app.set('view engine', 'ejs')
 app.set('views', path.resolve('./views'))
 
 
-app.use('/home',staticRoute)
-
-
-
-app.use('/url', urlRoute)
+app.use('/user',userRoute)
+app.use('/', checkAuth, staticRoute)
+app.use('/url',restricetedToLoggedUserOnly, urlRoute)
 
 
 
