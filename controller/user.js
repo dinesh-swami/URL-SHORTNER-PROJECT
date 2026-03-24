@@ -15,16 +15,16 @@ async function handleUserSingup(req,res) {
 
 async function handleUserLogin(req , res) {
     const {email,password} = req.body;
-const userValidtion = await User.findOne({email,password})
+    const userValidtion = await User.findOne({ email , password })
 
-if (!userValidtion) return res.render('login', {
-    error : 'Invalid User Email ya Password , kya kiya re lawde!'
-})
+    if (!userValidtion) return res.render('login', {
+        error : 'Invalid User Email ya Password , kya kiya re lawde!'
+    })
 
-const token = setUser(userValidtion)  // ✅ userValidtion use karo!
-res.cookie('uid',token)
+    const token = setUser(userValidtion)  // ✅ userValidtion use karo!
+    res.cookie('token',token)
 
-return res.redirect('/')
+    return res.redirect('/')
 
 }
 

@@ -7,10 +7,12 @@ const cookieParser = require('cookie-parser')
 const urlRoute  = require('./routes/url')
 const staticRoute = require('./routes/staticRouter.js')
 const userRoute  = require('./routes/user')
-const { restricetedToLoggedUserOnly, checkAuth } = require('./middleware/auth')
+const { checkForAuthentication,restrictTo } = require('./middleware/auth')
 
 app.use(express.json())
 app.use(cookieParser())
+app.use(checkForAuthentication)
+
 
 // url encoded ke liye middleware
 app.use(express.urlencoded ({extended:false}))
@@ -22,8 +24,8 @@ app.set('views', path.resolve('./views'))
 
 
 app.use('/user',userRoute)
-app.use('/', checkAuth, staticRoute)
-app.use('/url',restricetedToLoggedUserOnly, urlRoute)
+app.use('/',  staticRoute)
+app.use('/url',restrictTo(["NORMAL" , "ADMIN"] ), urlRoute)
 
 
 
